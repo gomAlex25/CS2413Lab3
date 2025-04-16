@@ -1,0 +1,29 @@
+void trav(struct TreeNode* tree, int* arr, unsigned int* i) //initialize tree arr and i
+{
+    if(tree)
+    {
+        trav(tree->left, arr, i); //visit left subtree first
+        arr[(*i)++] = tree->val; //visit current node the root
+        trav(tree->right, arr, i); //visit right subtree
+    }
+}
+
+size_t countNodes(struct TreeNode* tree) 
+{
+    if(tree == NULL) return 0;
+    return 1 + countNodes(tree->left) + countNodes(tree->right);
+} //counts number of nodes for memory allocation
+
+int* inorderTraversal(struct TreeNode* root, int* returnSize) 
+{
+    size_t count = countNodes(root); //count total nodes
+    *returnSize = count; //set size
+
+    unsigned int i = 0; //tracker
+
+    int* res = malloc(count*sizeof(int)); //allocate array
+    
+    trav(root, res, &i); //inorder values
+
+    return res;
+}
