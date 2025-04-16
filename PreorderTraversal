@@ -1,0 +1,21 @@
+int countNodes(struct TreeNode* root) {
+    if (root == NULL) return 0;
+    return 1 + countNodes(root->left) + countNodes(root->right);
+} //counts total number of nodes for memory allocation
+
+void preOrder(struct TreeNode* root, int *arr, int *returnSize){  //initalize current node, array and size value
+    if(root!=NULL){  //current node root is not empty
+        arr[(*returnSize)++]=root->val; //visit root first
+        preOrder(root->left, arr, returnSize); // traverse left subtree
+        preOrder(root->right, arr, returnSize); // traverse right subtree
+    }
+}
+
+int* preorderTraversal(struct TreeNode* root, int* returnSize) { //main func 
+    *returnSize = 0; //initialize size
+    int count = countNodes(root);
+    int* arr=(int*)malloc(sizeof(int) * count); //allocate memory
+    if (arr == NULL) return NULL;
+    preOrder(root, arr, returnSize); //helper func
+    return arr;
+}
